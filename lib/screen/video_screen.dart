@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:module_b/controller/video_controller.dart';
+import 'package:module_b/screen/home_screen.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoScreen extends StatefulWidget {
@@ -13,7 +14,7 @@ class VideoScreen extends StatefulWidget {
 
 class _VideoScreenState extends State<VideoScreen> {
   late VideoIntroController videoController;
-  final bool isPlaying = false;
+  bool isPlaying = false;
 
   @override
   void initState() {
@@ -22,9 +23,8 @@ class _VideoScreenState extends State<VideoScreen> {
     videoController.init().then((value) {
       videoController.controller.addListener(videoListener);
       videoController.play();
+      setState(() {});
     });
-
-    setState(() {});
   }
 
   void videoListener() {
@@ -34,6 +34,9 @@ class _VideoScreenState extends State<VideoScreen> {
 
     if (!isPlaying && position == duration) {
       log("홈으로");
+      Navigator.of(
+        context,
+      ).pushReplacement(MaterialPageRoute(builder: (context) => HomeScreen()));
     }
   }
 
@@ -51,62 +54,72 @@ class _VideoScreenState extends State<VideoScreen> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              margin: EdgeInsets.only(top: 16),
-              child: Image.asset("assets/logo.png", width: 180),
-            ),
-
-            Container(
-              margin: EdgeInsets.only(bottom: 30),
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: Stack(
+        body: !controller.value.isInitialized
+            ? Center(child: CircularProgressIndicator())
+            : Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  AspectRatio(
-                    aspectRatio: controller.value.aspectRatio,
-                    child: VideoPlayer(controller),
+                  Container(
+                    margin: EdgeInsets.only(top: 16),
+                    child: Image.asset("assets/logo.png", width: 180),
                   ),
 
-                  Positioned.fill(
-                    child: GestureDetector(
-                      onTap: videoController.videoPlayStop,
-                      child: Container(color: Colors.transparent),
+                  Container(
+                    margin: EdgeInsets.only(bottom: 30),
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: Stack(
+                      children: [
+                        GestureDetector(
+                          behavior: HitTestBehavior.opaque,
+                          onTap: videoController.videoPlayStop,
+                          child: AspectRatio(
+                            aspectRatio: controller.value.aspectRatio,
+                            child: VideoPlayer(controller),
+                          ),
+                        ),
+
+                        Positioned(
+                          left: 0,
+                          right: 0,
+                          bottom: 0,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: _videoSeek(),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
 
-                  Positioned(bottom: 0, child: _videoSeek()),
+                  Container(
+                    color: Color(0xffF0F8FE),
+                    width: double.infinity,
+                    padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
+                    child: GestureDetector(
+                      onTap: () {
+                        log("홈으로");
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(builder: (context) => HomeScreen()),
+                        );
+                      },
+                      child: Container(
+                        color: Color(0xff2699FB),
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        child: Text(
+                          "홈으로",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
-            ),
-
-            Container(
-              color: Color(0xffF0F8FE),
-              width: double.infinity,
-              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
-              child: GestureDetector(
-                onTap: () {
-                  log("홈으로");
-                },
-                child: Container(
-                  color: Color(0xff2699FB),
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.symmetric(vertical: 10),
-                  child: Text(
-                    "홈으로",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }
@@ -118,13 +131,16 @@ class _VideoScreenState extends State<VideoScreen> {
         final dur = value.duration;
         final pos = value.position;
 
-        double seek = 0.0;
-        if (dur.inMilliseconds > 0) {
-          seek = pos.inMilliseconds / dur.inMilliseconds;
-        }
+        double seek = dur.inMilliseconds == 0
+            ? 0.0
+            : pos.inMilliseconds / dur.inMilliseconds;
 
         return Slider(
-          value: seek.clamp(0.0, 0.1),
+          activeColor: Colors.red,
+          value: seek.clamp(0.0, 1.0),
+          padding: EdgeInsets.zero,
+          min: 0,
+          max: 1,
           onChanged: (value) {
             videoController.controller.seekTo(dur * value);
           },

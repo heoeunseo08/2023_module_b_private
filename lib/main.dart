@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:module_b/app_screen.dart';
 import 'package:module_b/screen/video_screen.dart';
 
 void main() {
