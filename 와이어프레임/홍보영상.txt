@@ -1,0 +1,6 @@
+1. Http Pseudo Streaming / Http Progressive Streaming/ Http Range Streaming
+http://관리서버/video/streaming/100.mp4
+
+2. 영상파일 apk 파일에 포함
+http://관리서버/video/100.mp4
+위 주소에서 제공된 100.mp4파일을 다운로드 후 apk내부에 포함하여 재생

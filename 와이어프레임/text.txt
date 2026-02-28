@@ -1,0 +1,44 @@
+[공통] 네비게이션
+홈
+백년가게
+검색
+좋아요
+설정
+
+[공통] 백년가게
+
+[온보딩]
+홈으로
+
+[Home]
+1. 2023년 백년가게 신청
+
+2. 전국의 백년가게
+
+3. 업종별 백년가게
+건설업
+농업
+도소매업
+서비스업
+숙박업
+음식점업
+제조업
+축산업
+
+4. 바로가기
+홍보영상 : https://www.sbiz.or.kr/hdst/board/boardList.do?boardCd=VIDEO
+우수사례 : https://www.sbiz.or.kr/hdst/board/boardList.do?boardCd=GOODEXAMPLE
+FAQ: https://www.sbiz.or.kr/hdst/board/boardList.do?boardCd=FAQ
+
+[설정]
+사용자 정보
+앱 초기화
+개인정보 수집 및 이용
+이용역관 동의
+오픈소스 활용 안내
+백년가게 홈페이지 : https://www.sbiz.or.kr/hdst/
+소상공인시장진흥공단 홈페이지 : https://semas.or.kr/
+중소벤처 24 홈페이지 : https://www.smes.go.kr/
+K-스타트업 홈페이지 : https://www.k-startup.go.kr/
+중소기업현황정보시스템 : https://sminfo.mss.go.kr/
+
