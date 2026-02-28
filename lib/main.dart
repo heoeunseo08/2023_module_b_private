@@ -1,7 +1,12 @@
+
 import 'package:flutter/material.dart';
+import 'package:module_b/controller/video_controller.dart';
+import 'package:module_b/screen/home_screen.dart';
 import 'package:module_b/screen/video_screen.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await videoController.loadAppOpen();
   runApp(const MyApp());
 }
 
@@ -13,7 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: VideoScreen(),
+      home: videoController.isOpen ? VideoScreen() : HomeScreen(),
     );
   }
 }

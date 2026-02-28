@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:module_b/controller/video_controller.dart';
-import 'package:module_b/screen/home_screen.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoScreen extends StatefulWidget {
@@ -13,13 +12,11 @@ class VideoScreen extends StatefulWidget {
 }
 
 class _VideoScreenState extends State<VideoScreen> {
-  late VideoIntroController videoController;
   bool isPlaying = false;
 
   @override
   void initState() {
     super.initState();
-    videoController = VideoIntroController();
     videoController.init().then((value) {
       videoController.controller.addListener(videoListener);
       videoController.play();
@@ -34,17 +31,15 @@ class _VideoScreenState extends State<VideoScreen> {
 
     if (!isPlaying && position == duration) {
       log("홈으로");
-      Navigator.of(
-        context,
-      ).pushReplacement(MaterialPageRoute(builder: (context) => HomeScreen()));
+      videoController.toHome(controller, context);
     }
   }
 
   @override
   void dispose() {
-    super.dispose();
     videoController.controller.removeListener(videoListener);
     videoController.dispose();
+    super.dispose();
   }
 
   @override
@@ -99,9 +94,7 @@ class _VideoScreenState extends State<VideoScreen> {
                     child: GestureDetector(
                       onTap: () {
                         log("홈으로");
-                        Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(builder: (context) => HomeScreen()),
-                        );
+                        videoController.toHome(controller, context);
                       },
                       child: Container(
                         color: Color(0xff2699FB),

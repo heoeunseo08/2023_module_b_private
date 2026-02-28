@@ -9,6 +9,7 @@ class HomeScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
         ),
+        body: Center(child: Text("home"),),
       ),
     );
   }

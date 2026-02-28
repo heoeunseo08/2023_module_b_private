@@ -1,4 +1,11 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:module_b/app_controller.dart';
+import 'package:module_b/screen/home_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
+
+final VideoIntroController videoController = VideoIntroController();
 
 class VideoIntroController {
   late VideoPlayerController controller;
@@ -22,7 +29,36 @@ class VideoIntroController {
       ? await controller.pause()
       : await controller.play();
 
-  void dispose(){
+  void dispose() {
     controller.dispose();
+  }
+
+  static const isAppOpenKey = "IS_FIRST_APP_OPEN";
+
+  late bool isOpen;
+
+  Future<void> loadAppOpen() async {
+    final shard = await SharedPreferences.getInstance();
+    isOpen = shard.getBool(isAppOpenKey) ?? true;
+    appController.update();
+  }
+
+  Future<void> toHome(
+    VideoPlayerController videoController,
+    BuildContext context,
+  ) async {
+    await videoController.pause();
+    videoController.dispose();
+
+    final shared = await SharedPreferences.getInstance();
+
+    // 👇 여기서 저장해야 한다
+    await shared.setBool(isAppOpenKey, false);
+
+    isOpen = false;
+
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (context) => const HomeScreen()),
+    );
   }
 }
