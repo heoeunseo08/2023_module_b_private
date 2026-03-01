@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:module_b/app_screen.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key});
@@ -13,25 +14,34 @@ class _SettingScreenState extends State<SettingScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          automaticallyImplyLeading: true,
+          automaticallyImplyLeading: false,
           iconTheme: IconThemeData(color: Colors.white),
           backgroundColor: Color(0xff2699FB),
-          title: Center(
-            child: Text(
-              "설정",
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                color: Colors.white,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              IconButton(
+                onPressed: () {
+                  Navigator.of(
+                    context,
+                  ).push(MaterialPageRoute(builder: (context) => AppScreen()));
+                },
+                icon: Icon(Icons.arrow_back, color: Colors.white),
               ),
-            ),
+              Text(
+                "설정",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                ),
+              ),
+              SizedBox(),
+            ],
           ),
-          actions: const [
-            SizedBox(width: 48), // 🔥 leading 영역과 동일한 너비
-          ],
         ),
         backgroundColor: Colors.white,
-        body: Center(child: Text("설정어ㅓㅓㅓㅓㅓㅓ"),),
+        body: Center(child: Text("설정어ㅓㅓㅓㅓㅓㅓ")),
       ),
     );
   }

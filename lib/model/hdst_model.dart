@@ -39,7 +39,7 @@ class HdstModel {
     required this.dspsnCnvncYn,
   });
 
-  factory HdstModel.from(Map<String, dynamic> json) => HdstModel(
+  factory HdstModel.fromJson(Map<String, dynamic> json) => HdstModel(
     hdstId: json["hdstId"],
     hdstNm: json["hdstNm"],
     repesntFileNm: json["repesntFileNm"],

@@ -22,16 +22,38 @@ class _AppScreenState extends State<AppScreen> {
     SettingScreen(),
   ];
 
+  void onTap(int index){
+    setState(() {
+      currentIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: screens[currentIndex],
       bottomNavigationBar: BottomNavigationBar(
-        items: [BottomNavigationBarItem(icon: Icon(Icons.home_outlined),label: "홈")],
-        items: [BottomNavigationBarItem(icon: Icon(Icons.home_outlined),label: "백년가게")],
-        items: [BottomNavigationBarItem(icon: Icon(Icons.home_outlined),label: "검색")],
-        items: [BottomNavigationBarItem(icon: Icon(Icons.home_outlined),label: "좋아요")],
-        items: [BottomNavigationBarItem(icon: Icon(Icons.home_outlined),label: "설정")],
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Color(0xff2699FB),
+        selectedItemColor: Colors.white,
+        selectedLabelStyle: TextStyle(color: Colors.white, fontSize: 14),
+        unselectedItemColor: Color(0xffB3DBFD),
+        unselectedLabelStyle: TextStyle(color: Color(0xffB3DBFD), fontSize: 14),
+        currentIndex: currentIndex,
+        onTap: onTap,
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: "홈"),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.category_outlined),
+            label: "백년가게",
+          ),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: "검색"),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite_border),
+            label: "좋아요",
+          ),
+          BottomNavigationBarItem(icon: Icon(Icons.settings_outlined), label: "설정"),
+        ],
       ),
     );
   }

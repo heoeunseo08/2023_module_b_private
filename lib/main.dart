@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
+import 'package:module_b/app_screen.dart';
 import 'package:module_b/controller/video_controller.dart';
-import 'package:module_b/screen/home_screen.dart';
 import 'package:module_b/screen/video_screen.dart';
 
 void main() async{
@@ -17,8 +17,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(useMaterial3: false),
       debugShowCheckedModeBanner: false,
-      home: videoController.isOpen ? VideoScreen() : HomeScreen(),
+      home: videoController.isOpen ? VideoScreen() : AppScreen(),
     );
   }
 }
